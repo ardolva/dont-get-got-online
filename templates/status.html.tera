@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Status | Don't Get Got! Online</title>
+    <title>Estado | ¡No te dejes atrapar! Online</title>
   </head>
   <body>
-    <h1>Don't Get Got! Status</h1>
+    <h1>Estado de ¡No te dejes atrapar!</h1>
     <ul>
     {% for key, game in games %}
     <li>{{ key }} => {{ game | json_encode() | safe }}</li>
