@@ -1,34 +1,23 @@
-# fly.toml file generated for dont-get-got on 2022-01-06T15:09:32-06:00
+app = "no-te-dejes-atrapar"
+primary_region = "dfw"
 
-app = "dont-get-got"
-
-kill_signal = "SIGINT"
-kill_timeout = 5
+[build]
 
 [env]
+  ROCKET_ADDRESS = "0.0.0.0"
+  ROCKET_PORT = "8080"
 
-[experimental]
-  cmd = "./dont-get-got-online"
+[processes]
+  app = "./dont-get-got-online"
 
-[[services]]
-  internal_port = 8000
-  protocol = "tcp"
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
 
-  [services.concurrency]
-    hard_limit = 25
-    soft_limit = 20
-
-  [[services.ports]]
-    handlers = ["http"]
-    port = "80"
-
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = "443"
-
-  [[services.tcp_checks]]
-    grace_period = "1s"
-    interval = "15s"
-    port = "8000"
-    restart_limit = 6
-    timeout = "2s"
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
