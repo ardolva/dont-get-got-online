@@ -1,15 +1,15 @@
 {% extends "base" %}
 {% block content %}
 <div class="container" style="text-align: center; max-width: 500px; margin: 0 auto;">
-  <h1 class="my-5 display-2">Don't Get Got!</h1>
+  <h1 class="my-5 display-2">¡No te dejes atrapar!</h1>
   <form action="/play" method="POST">
-    <label for="name" class="form-label">Your name:</label>
+    <label for="name" class="form-label">Tu nombre:</label>
     <input class="mb-5 form-control" type="text" name="name" id="name" required autofocus>
-    <button class="btn btn-outline-primary" id="create-btn" type="submit" name="action" value="create">Create Game</button>
-    <div id="or">or</div>
+    <button class="btn btn-outline-primary" id="create-btn" type="submit" name="action" value="create">Crear partida</button>
+    <div id="or">o</div>
     <div class="input-group mb-5">
-      <input class="form-control" type="text" name="join_code" id="join-code" placeholder="Join Code">
-      <button class="btn btn-outline-primary" type="submit" name="action" value="join">Join Game</button>
+      <input class="form-control" type="text" name="join_code" id="join-code" placeholder="Código de partida">
+      <button class="btn btn-outline-primary" type="submit" name="action" value="join">Unirse</button>
     </div>
     <script>
       // TODO: this could also be done server-side.
