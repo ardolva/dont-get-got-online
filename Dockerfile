@@ -1,7 +1,7 @@
 FROM rust:1.85-bullseye AS builder
 
 WORKDIR /usr/src/app
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml ./
 COPY src/ ./src/
 RUN cargo install --path .
 
