@@ -1,21 +1,22 @@
 {% extends "base" %}
 {% block content %}
 <div class="container" style="max-width: 500px; margin: 0 auto;">
-  <h1 class="mt-5 mb-3 display-2 text-center">Don't Get Got!</h1>
+  <h1 class="mt-5 mb-3 display-2 text-center">¡No te dejes atrapar!</h1>
   <p class="text-center">
-    Invite your friends to join with code <code>{{ game.join_code }}</code>.
+    Invita a tus amigos con el código <code>{{ game.join_code }}</code>.
     <a data-bs-toggle="collapse" href="#" data-bs-target=".qrtoggle">QR</a>
   </p>
   <div class="collapse text-center qrtoggle" data-bs-toggle="collapse" data-bs-target=".qrtoggle">
     <div class="my-5 d-inline-block mx-auto" id="qrcode"></div>
   </div>
-  <div class="qrtoggle collapse show mb-5"><!-- hide the rest of the screen when the QR code is shown -->
+  <div class="qrtoggle collapse show mb-5">
     <div class="progress mb-3">
       <div class="progress-bar bg-success" style="width: {{ 100/6 * player.success_count }}%">{{ player.success_count }} &checkmark;</div>
-      <div class="progress-bar bg-light text-dark" style="width: {{ 100/6 * (6 - player.success_count - player.failure_count) }}%">{{ 3 - player.success_count }} to win</div>
+      <div class="progress-bar bg-light text-dark" style="width: {{ 100/6 * (6 - player.success_count - player.failure_count) }}%">{{ 3 - player.success_count }} para ganar</div>
       <div class="progress-bar bg-danger" style="width: {{ 100/6 * player.failure_count }}%">{{ player.failure_count }} &#10007;</div>
     </div>
-    <h3>Challenges</h3>
+
+    <h3>Misiones</h3>
     <ul id="challenge-list" class="list-group list-group-flush">
       {% for challenge in player.challenges %}
         <li data-index="{{ loop.index0 }}" class="list-group-item d-flex align-items-center">
@@ -30,7 +31,8 @@
         </li>
       {% endfor %}
     </ul>
-    <h3 class="mt-4">Players</h3>
+
+    <h3 class="mt-4">Jugadores</h3>
     {% for player in game.players %}
       <div class="card mb-2">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -41,12 +43,12 @@
           {% for challenge in player.challenges %}
             {% if challenge.state == "Succeeded" %}
               <li class="list-group-item">
-                <b>Got {{ game.players[challenge.got_player_index].name }}:</b>
+                <b>Atrapó a {{ game.players[challenge.got_player_index].name }}:</b>
                 {{ challenge.prompt }}
               </li>
             {% elif challenge.state == "Failed" %}
               <li class="list-group-item">
-                <b>Caught by {{ game.players[challenge.got_player_index].name }}:</b>
+                <b>Fue atrapado por {{ game.players[challenge.got_player_index].name }}:</b>
                 {{ challenge.prompt }}
               </li>
             {% endif %}
@@ -59,20 +61,19 @@
 {% endblock content %}
 
 {% block footer %}
-<!-- Status update modal -->
 <div class="modal fade" id="statusUpdateModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Update challenge</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title">Actualizar misión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
         <p id="challenge-text"></p>
 
         <form id="update-challenge-form" method="POST">
           <input type="hidden" name="state" id="state-input">
-          <label for="whod-you-get-input">Who'd you get?</label>
+          <label for="whod-you-get-input">¿A quién atrapaste?</label>
           <select class="form-select" id="whod-you-get-input" name="target" required>
             {% for other_player in game.players %}
               {% if other_player != player %}
@@ -83,13 +84,14 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button id="active-form-submit-btn" type="button" class="btn btn-outline-secondary">Mark Active</button>
-        <button id="success-form-submit-btn" type="button" class="btn btn-outline-success">Mark Succeeded</button>
-        <button id="failure-form-submit-btn" type="button" class="btn btn-outline-danger">Mark Failed</button>
+        <button id="active-form-submit-btn" type="button" class="btn btn-outline-secondary">Activar</button>
+        <button id="success-form-submit-btn" type="button" class="btn btn-outline-success">Completada</button>
+        <button id="failure-form-submit-btn" type="button" class="btn btn-outline-danger">Fallida</button>
       </div>
     </div>
   </div>
 </div>
+
 <script src="/qrcode.min.js"></script>
 <script>
   new QRCode(document.getElementById("qrcode"), `${window.location.protocol}//${window.location.host}/#{{ game.join_code}}`);
